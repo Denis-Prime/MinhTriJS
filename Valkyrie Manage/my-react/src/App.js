@@ -1,7 +1,7 @@
 
 import './App.css';
 import { useState } from 'react';
-
+import AddNewVal from './Components/AddNewVal';
 const InitValList = [
   {
     id: 0,
@@ -34,7 +34,48 @@ const InitValList = [
 
 ]
 
+
+const emptyValky = {
+  name: "",
+  age: "",
+  weapon: "",
+   element: "",
+}
+
 function App() {
+  const [NewVAL,SetNewVal] = useState(emptyValky)
+  const handleOnChange = (props) => {
+    const { name, value } = props.target
+    SetNewVal({...NewVAL,[name]:value})
+  }
+
+  const HandleOnSubmit = (event) => {
+    event.preventDefault()
+    SetNewVal({...NewVAL,['id'] : ValList.length+1})
+    setValList([...ValList,NewVAL])
+  }
+
+  const AddValkyXML = (
+    <form className="ContainAddNew" onSubmit={HandleOnSubmit}>
+      <div>
+        <label htmlFor="">Name</label>
+        <input id="name" name="name" type="text" onChange={handleOnChange} />
+      </div>
+      <div>
+        <label htmlFor="age">Age</label>
+        <input id="age" name="age" type="text" onChange={handleOnChange} />
+      </div>
+      <div>
+        <label htmlFor="weapon">Weapon</label>
+        <input id="weapon" name="weapon" type="text" onChange={handleOnChange}/>
+      </div>
+      <div>
+        <label htmlFor="element">Element</label>
+        <input id="element" name="element" type="text" onChange={handleOnChange}/>
+      </div>
+      <button type='submit'>ADD</button>
+    </form>
+  )
 
 
   const [ValList, setValList] = useState(InitValList)
@@ -68,8 +109,8 @@ function App() {
   }
 
   const HandelDeleteVal = (id) => {
-    const newState = ValList.filter(val=> val.id !== id)
-    setValList(newState)
+    const newValList = ValList.filter(val=> val.id !==id)
+    setValList(newValList)
   }
   const buttonXML = (
     <div className='btn'>
@@ -80,10 +121,14 @@ function App() {
   )
   return (
     <div className='contain'>
-        {buttonXML}
+          {buttonXML}
+        <div className='add'>
+          {AddValkyXML}
+        </div>
         <div className="App">
           {varListXML}
         </div>
+
     </div>
   );
 }
